@@ -1,0 +1,12 @@
+{
+  "name": "Checkbox",
+  "id": "1126937137679349709",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma",
+    "figjam"
+  ],
+  "containsWidget": true,
+  "widgetApi": "1.0.0"
+}
