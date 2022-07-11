@@ -5,13 +5,7 @@ const { useSyncedState, AutoLayout, SVG, usePropertyMenu } = widget
 
 function Widget() {
 
-  const checkSvgSrc = `
-  <svg fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M1 4.3998L4.06667 6.7998L9 0.799805" stroke="#FFF" stroke-width="3"/>
-  </svg>
-  `;
-
-  const [checkmark, setCheck] = useSyncedState('checkmark', true);
+  const [checkmark, setCheck] = useSyncedState('checkmark', false);
   const [open, setOpen] = useSyncedState("open", true);
   const [size, setSize] = useSyncedState("size", 16);
 
@@ -39,8 +33,8 @@ function Widget() {
   );
 
   const cornerRadius = size * 0.13;
-  const strokeWidth = size * 0.1;
-  const padding = size * 0.25;
+  const strokeWidth = size * 0.13;
+  const padding = size * 0.16;
 ;
 
   const innerShadow: WidgetJSX.Effect = {
@@ -56,6 +50,12 @@ function Widget() {
     offset: { x: 1.5, y: 1.5 },
     blur: 2,
   }
+
+  const checkSvgSrc = `
+  <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1 4.3998L4.06667 6.7998L9 0.799805" stroke="#FFF" stroke-width="${strokeWidth}" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+  `;
 
   return (
     <AutoLayout
@@ -76,8 +76,6 @@ function Widget() {
       width={'fill-parent'}
       height={'fill-parent'}
       hidden={!checkmark}
-      // stroke={'#FFF'}
-      // strokeWidth={strokeWidth}
     />
     </AutoLayout>
   )
