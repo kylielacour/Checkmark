@@ -4,10 +4,10 @@ const { widget } = figma
 const { useSyncedState, AutoLayout, SVG, usePropertyMenu } = widget
 
 function Widget() {
-  
+
   const checkSvgSrc = `
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.4763 4.22051C12.7963 4.48358 12.8424 4.95621 12.5793 5.27616L7.64599 11.2762C7.38739 11.5907 6.92509 11.6414 6.60444 11.3905L3.53777 8.99046C3.21158 8.73517 3.15409 8.26379 3.40937 7.9376C3.66466 7.6114 4.13604 7.55391 4.46223 7.8092L6.95234 9.75797L11.4207 4.3235C11.6838 4.00355 12.1564 3.95744 12.4763 4.22051Z" fill="#2AB514"/>
+  <svg fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M1 4.3998L4.06667 6.7998L9 0.799805" stroke="#FFF" stroke-width="3"/>
   </svg>
   `;
 
@@ -40,7 +40,22 @@ function Widget() {
 
   const cornerRadius = size * 0.13;
   const strokeWidth = size * 0.1;
+  const padding = size * 0.25;
 ;
+
+  const innerShadow: WidgetJSX.Effect = {
+    type: 'inner-shadow',
+    color: { r: 0, g: 0, b: 0, a: 0.1 },
+    offset: { x: 1.5, y: 1.5 },
+    blur: 2,
+  }
+
+  const noShadow: WidgetJSX.Effect = {
+    type: 'inner-shadow',
+    color: { r: 0, g: 0, b: 0, a: 0 },
+    offset: { x: 1.5, y: 1.5 },
+    blur: 2,
+  }
 
   return (
     <AutoLayout
@@ -48,27 +63,22 @@ function Widget() {
       height={size}
       verticalAlignItems={'center'}
       horizontalAlignItems={'center'}
-      padding={0}
+      padding={padding}
       cornerRadius={cornerRadius}
-      fill={'#FFFFFF'}
-      stroke={'#e6e6e6'}
-      strokeAlign={'outside'}
-      effect={{
-        type: 'inner-shadow',
-        color: { r: 0, g: 0, b: 0, a: 0.1 },
-        offset: { x: 1.5, y: 1.5 },
-        blur: 1,
-      }}
+      strokeAlign={'inside'}
+      fill={checkmark ? '#2AB514' : '#FFF'}
+      stroke={checkmark ? '#2AB514' : '#E6E6E6'}
+      effect={checkmark ? noShadow : innerShadow}
       onClick={() => setCheck(!checkmark)}
     >
-      <SVG
-        src={checkSvgSrc}
-        width={'fill-parent'}
-        height={'fill-parent'}
-        hidden={!checkmark}
-        strokeWidth={strokeWidth}
-        
-      ></SVG>
+    <SVG
+      src={checkSvgSrc}
+      width={'fill-parent'}
+      height={'fill-parent'}
+      hidden={!checkmark}
+      // stroke={'#FFF'}
+      // strokeWidth={strokeWidth}
+    />
     </AutoLayout>
   )
 }
