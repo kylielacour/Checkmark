@@ -7,17 +7,32 @@ function Widget() {
 
   const [checkmark, setCheck] = useSyncedState('checkmark', false);
   const [open, setOpen] = useSyncedState("open", true);
-  const [size, setSize] = useSyncedState("size", 16);
+  const [size, setSize] = useSyncedState("size", 80);
+  const [color, setColor] = useSyncedState("color", "#2AB514");
+
+  const greentheme = "#2AB514";
 
   usePropertyMenu(
     open
       ? [
           {
+            itemType: 'color-selector',
+            propertyName: 'colors',
+            tooltip: 'Color',
+            selectedOption: color,
+            options: [{option: greentheme, tooltip: "Green"}, {option: "#000", tooltip: "Black"} ],
+          },
+          {
+            itemType: 'separator',
+          },
+          {
             itemType: "dropdown",
             options: [
-              { option: "16", label: "Small" },
-              { option: "25", label: "Medium" },
-              { option: "40", label: "Large" },
+              { option: "16", label: "XSmall" },
+              { option: "25", label: "Small" },
+              { option: "40", label: "Medium" },
+              { option: "80", label: "Large" },
+              { option: "120", label: "XLarge" },
             ],
             selectedOption: size.toString(),
             tooltip: "Size",
@@ -29,9 +44,12 @@ function Widget() {
       if (propertyName === "size" && propertyValue) {
         setSize(Number(propertyValue))
       }
+      else if (propertyName === "colors") {
+        setColor(propertyValue)
+      }
     }
   );
-
+  const modifier = size + 10;
   const cornerRadius = size * 0.13;
   const strokeWidth = size * 0.13;
   const padding = size * 0.16;
@@ -59,24 +77,29 @@ function Widget() {
 
   return (
     <AutoLayout
-      width={size}
-      height={size}
+      width={modifier}
+      height={modifier}
       verticalAlignItems={'center'}
       horizontalAlignItems={'center'}
-      padding={padding}
-      cornerRadius={cornerRadius}
-      strokeAlign={'inside'}
-      fill={checkmark ? '#2AB514' : '#FFF'}
-      stroke={checkmark ? '#2AB514' : '#E6E6E6'}
-      effect={checkmark ? noShadow : innerShadow}
-      onClick={() => setCheck(!checkmark)}
     >
-    <SVG
-      src={checkSvgSrc}
-      width={'fill-parent'}
-      height={'fill-parent'}
-      hidden={!checkmark}
-    />
+      <AutoLayout
+        width={size}
+        height={size}
+        padding={padding}
+        cornerRadius={cornerRadius}
+        strokeAlign={'inside'}
+        fill={checkmark ? color : '#FFF'}
+        stroke={checkmark ? color : '#E6E6E6'}
+        effect={checkmark ? noShadow : innerShadow}
+        onClick={() => setCheck(!checkmark)}
+      >
+        <SVG
+          src={checkSvgSrc}
+          width={'fill-parent'}
+          height={'fill-parent'}
+          hidden={!checkmark}
+        />
+      </AutoLayout>
     </AutoLayout>
   )
 }
